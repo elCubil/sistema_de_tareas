@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -28,6 +29,8 @@ public class User {
     //lado many
     @OneToMany(mappedBy="usuario")
     private List<Task> tareas;
+
+    private LocalDateTime CreatedAt;
 
 
 }

@@ -1,7 +1,17 @@
 package com.example.apisistemanotas.Model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+
+@Entity
+@NoArgsConstructor
+@Setter
+@Getter
 public class Task {
 
     @Id
@@ -21,4 +31,6 @@ public class Task {
     @JoinColumn(name="usuario_id")
     @ManyToOne
     private User usuario;
+
+    private LocalDateTime createdAt;
 }
