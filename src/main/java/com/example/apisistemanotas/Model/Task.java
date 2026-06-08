@@ -33,4 +33,8 @@ public class Task {
     private User usuario;
 
     private LocalDateTime createdAt;
+
+    public Task(){
+
+    }
 }

@@ -3,12 +3,18 @@ package com.example.apisistemanotas.Service;
 
 import com.example.apisistemanotas.DTO.RequestCreacionUser;
 import com.example.apisistemanotas.DTO.ResponseCreacionUser;
-import com.example.apisistemanotas.Excepciones.nicknameExistenteException;
+import com.example.apisistemanotas.DTO.ResponseListaTareas;
+import com.example.apisistemanotas.Excepciones.IdUsuarioNoEncontradoException;
+import com.example.apisistemanotas.Excepciones.NicknameExistenteException;
+import com.example.apisistemanotas.Model.Task;
 import com.example.apisistemanotas.Model.User;
 import com.example.apisistemanotas.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,7 +27,7 @@ public class UserService {
     public ResponseCreacionUser crearUser(RequestCreacionUser dto){
 
         if(userRepository.existsByNickname(dto.getNickname())){
-            throw new nicknameExistenteException("escoge otro nickname, este ya existe");
+            throw new NicknameExistenteException("escoge otro nickname, este ya existe");
         }
 
         User var_user=new User();
@@ -40,8 +46,27 @@ public class UserService {
 
         return respuesta;
 
+    }
+
+    public List<ResponseListaTareas> tareasPorUsuario(Long id){
+        Optional<User> var_optional=userRepository.findById(id);
+        if(var_optional.isPresent()){
+            User var_user=var_optional.get();
+            List<ResponseListaTareas> salida=new ArrayList<>();
+            for(Task tarea:var_user.getTareas())
+            {
+                ResponseListaTareas input=new ResponseListaTareas();
+                input.setId(tarea.getId());
+                input.setTarea(tarea.getTarea());
+                input.setNivel(tarea.getNivel());
+
+                salida.add(input);
+
+            }
+            return salida;
 
 
-
+        }
+        throw new IdUsuarioNoEncontradoException("id no encontrado");
     }
 }

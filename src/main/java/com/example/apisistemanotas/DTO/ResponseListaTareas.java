@@ -8,20 +8,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-@NoArgsConstructor
+
 @Getter
 @Setter
-public class ResponseCreacionTask {
-
+@NoArgsConstructor
+public class ResponseListaTareas {
 
     private Long id;
 
     private String tarea;
 
     private Dificultad nivel;
-
-
-    private Long id_usuario;
 
 
 }

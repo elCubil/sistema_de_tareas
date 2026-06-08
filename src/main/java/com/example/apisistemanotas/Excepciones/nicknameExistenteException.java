@@ -1,8 +1,8 @@
 package com.example.apisistemanotas.Excepciones;
 
-public class nicknameExistenteException extends RuntimeException{
+public class NicknameExistenteException extends RuntimeException{
 
-    public nicknameExistenteException(String mensaje){
+    public NicknameExistenteException(String mensaje){
         super(mensaje);
     }
 
