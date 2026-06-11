@@ -4,6 +4,7 @@ package com.example.apisistemanotas.Service;
 import com.example.apisistemanotas.DTO.RequestCreacionUser;
 import com.example.apisistemanotas.DTO.ResponseCreacionUser;
 import com.example.apisistemanotas.DTO.ResponseListaTareas;
+import com.example.apisistemanotas.DTO.ResponseListaTareasMasPerfilUsuario;
 import com.example.apisistemanotas.Excepciones.IdUsuarioNoEncontradoException;
 import com.example.apisistemanotas.Excepciones.NicknameExistenteException;
 import com.example.apisistemanotas.Model.Task;
@@ -68,5 +69,30 @@ public class UserService {
 
         }
         throw new IdUsuarioNoEncontradoException("id no encontrado");
+    }
+
+    public ResponseListaTareasMasPerfilUsuario tareasPorUsuarioMasPerfilUsuario(Long id){
+        Optional<User> var_optional_user=userRepository.findById(id);
+        if(var_optional_user.isPresent()){
+            User var_user=var_optional_user.get();
+            ResponseListaTareasMasPerfilUsuario perfil_user=new ResponseListaTareasMasPerfilUsuario();
+            perfil_user.setId(var_user.getId());
+            perfil_user.setNickname(var_user.getNickname());
+
+            List<ResponseListaTareas> listaTareas=new ArrayList<>();
+            for(Task tarea:var_user.getTareas()){
+                ResponseListaTareas var_response=new ResponseListaTareas();
+                var_response.setId(tarea.getId());
+                var_response.setTarea(tarea.getTarea());
+                var_response.setNivel(tarea.getNivel());
+                listaTareas.add(var_response);
+            }
+            perfil_user.setTareas(listaTareas);
+
+            return perfil_user;
+        }
+        else{
+            throw new IdUsuarioNoEncontradoException("id de usuario no encontrado");
+        }
     }
 }

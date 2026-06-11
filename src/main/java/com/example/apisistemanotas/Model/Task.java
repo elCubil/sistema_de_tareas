@@ -26,7 +26,7 @@ public class Task {
     private Dificultad nivel;
 
     //joinColumn indica el nombre del campo en la BD
-    //usuario en el nombre del atributo
+    //usuario es el nombre del atributo
     //se usa joinColumn en un atributo envuelto en relacion
     @JoinColumn(name="usuario_id")
     @ManyToOne
@@ -34,7 +34,5 @@ public class Task {
 
     private LocalDateTime createdAt;
 
-    public Task(){
 
-    }
 }
