@@ -4,6 +4,7 @@ package com.example.apisistemanotas.Controller;
 import com.example.apisistemanotas.DTO.RequestCreacionTask;
 import com.example.apisistemanotas.DTO.ResponseCreacionTask;
 import com.example.apisistemanotas.DTO.ResponseListaTaskPorNivel;
+import com.example.apisistemanotas.DTO.ResponseReasignarTareaOtroUsuario;
 import com.example.apisistemanotas.Model.Dificultad;
 import com.example.apisistemanotas.Service.TaskService;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
 
     }
-    @GetMapping
+    @GetMapping("/task")
     public ResponseEntity<List<ResponseListaTaskPorNivel>> listaTareasPorNivel(
             @RequestParam Dificultad nivel
             ){
@@ -46,14 +47,28 @@ public class TaskController {
     }
 
 
-    @GetMapping
+    @GetMapping("/task/usuario/{userId}")
     public ResponseEntity<List<ResponseListaTaskPorNivel>>
     listaDeTareasPorUsuarioyNivel(
-            @RequestParam Long userId,@RequestParam Dificultad nivel){
+            @PathVariable Long userId,@RequestParam Dificultad nivel){
 
         List<ResponseListaTaskPorNivel> output=
                 taskservice.listaDeTareasPorUserAndNivel(userId,nivel);
         return ResponseEntity.status(HttpStatus.OK).body(output);
 
     }
+
+    @PatchMapping("/{idTask}/reasignar")
+    public ResponseEntity<ResponseReasignarTareaOtroUsuario> reasignarTarea(
+            @PathVariable Long idTask,
+            @RequestParam Long idUserOrigen,
+            @RequestParam Long idUserDestino)
+    {
+        ResponseReasignarTareaOtroUsuario respuesta=taskservice.reasignarTareaUsuario(
+                idTask,idUserOrigen,idUserDestino);
+
+        return ResponseEntity.status(HttpStatus.OK).body(respuesta);
+
+    }
+
 }
